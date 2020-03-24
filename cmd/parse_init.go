@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
+	"github.com/rhino-bird/caracal-pty/globals"
+	ptycommand "github.com/rhino-bird/caracal-pty/server/pty_command"
+	"github.com/rhino-bird/caracal-pty/tool"
 	"github.com/urfave/cli/v2"
 )
 
@@ -18,11 +22,33 @@ func parseArgs(args []string) {
 	app.Authors = getAuthors()
 	cli.AppHelpTemplate = helpTemplate
 
-	// app.CustomAppHelpTemplate = helpTemplate
+	ops := &tool.Options{}
+	if err := tool.ApplyDefaultValues(ops); err != nil {
+		exit(err, globals.ENOEXEC)
+	}
+
+	cmdOps := &ptycommand.Options{}
+	if err := tool.ApplyDefaultValues(cmdOps); err != nil {
+		exit(err, globals.ENOEXEC)
+	}
+
+	flg, fMap := tool.GenerateFlags(ops, cmdOps)
+	app.Flags = append(
+		flg,
+		&cli.StringFlag{
+			Name:    globals.ConfName,
+			Value:   globals.ConfPath,
+			Usage:   globals.ConfUsage,
+			EnvVars: globals.ConfEnvVars,
+		},
+	)
+
+	_ = fMap
 	app.Action = func(c *cli.Context) error {
 		if c.Args().Len() == 0 {
+			err := errors.Errorf(globals.NoCommand)
 			cli.ShowAppHelp(c)
-			os.Exit(1)
+			exit(err, globals.EINVAL)
 		}
 		return nil
 	}
