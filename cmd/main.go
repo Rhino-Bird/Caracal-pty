@@ -2,27 +2,24 @@ package main
 
 import (
 	"os"
+
+	"github.com/rhino-bird/caracal-pty/globals"
+	ptycommand "github.com/rhino-bird/caracal-pty/server/pty_command"
+	"github.com/rhino-bird/caracal-pty/tool"
+	"github.com/rhino-bird/caracal-pty/utils"
 )
 
 func main() {
 	args := os.Args
 	parseArgs(args)
-}
 
-/*
-func parseArgs(args []string) {
-	app := cli.NewApp()
-	app.Name = AppName
-	app.Version = Version + "+" + CommitID
-	app.HideHelp = true
-	// app.AppHelpTemplate = tool.helpTemplate
-	app.Action = func(c *cli.Context) error {
-		if c.Args().Len() == 0 {
-			cli.ShowAppHelp(c)
-			os.Exit(1)
-		}
-		return nil
+	ops := &tool.Options{}
+	if err := utils.ApplyDefaultValues(ops); err != nil {
+		exit(err, globals.ENOEXEC)
 	}
 
-	app.Run(args)
-}*/
+	cmdOps := &ptycommand.Options{}
+	if err := utils.ApplyDefaultValues(cmdOps); err != nil {
+		exit(err, globals.ENOEXEC)
+	}
+}

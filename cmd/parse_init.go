@@ -42,3 +42,10 @@ func getAuthors() []*cli.Author {
 
 	return auts
 }
+
+func exit(err error, code int) {
+	if err != nil {
+		fmt.Println(err)
+	}
+	os.Exit(code)
+}
