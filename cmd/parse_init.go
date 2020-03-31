@@ -11,7 +11,13 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func parseArgs(args []string) {
+// CommandArgs command options
+type CommandArgs struct {
+	Ops    *tool.Options
+	CmdOps *ptycommand.Options
+}
+
+func parseArgs(args []string, ch chan<- CommandArgs) {
 	app := cli.NewApp()
 	app.Name = AppName
 	app.Usage = Usage
@@ -41,12 +47,32 @@ func parseArgs(args []string) {
 		},
 	)
 
-	_ = fMap
 	app.Action = func(c *cli.Context) error {
-		if c.Args().Len() == 0 {
+		if c.NArg() == 0 {
 			err := errors.Errorf(globals.NoCommand)
 			cli.ShowAppHelp(c)
 			exit(err, globals.EINVAL)
+		}
+
+		conf := c.String(globals.ConfName)
+		if _, err := os.Stat(conf); !os.IsNotExist(err) {
+			if err := tool.ApplyConfigFile(conf, ops, cmdOps); err != nil {
+				exit(err, globals.EINVAL)
+			}
+		}
+
+		tool.ApplyFlags(flg, fMap, c, ops, cmdOps)
+
+		host, _ := os.Hostname()
+		ops.TitleVariable = map[string]interface{}{
+			"command":  args[0],
+			"argv":     args[1:],
+			"hostname": host,
+		}
+
+		ch <- CommandArgs{
+			Ops:    ops,
+			CmdOps: cmdOps,
 		}
 		return nil
 	}

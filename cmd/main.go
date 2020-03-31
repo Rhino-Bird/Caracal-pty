@@ -5,7 +5,11 @@ import (
 )
 
 func main() {
+	ch := make(chan CommandArgs)
 	args := os.Args
-	parseArgs(args)
+	parseArgs(args, ch)
 
+	cmd := <-ch
+
+	_ = cmd
 }
