@@ -12,8 +12,6 @@ import (
 )
 
 func parseArgs(args []string) {
-
-	fmt.Println(Version)
 	app := cli.NewApp()
 	app.Name = AppName
 	app.Usage = Usage
@@ -53,7 +51,10 @@ func parseArgs(args []string) {
 		return nil
 	}
 
-	app.Run(args)
+	err := app.Run(args)
+	if err != nil {
+		exit(err, globals.ENOEXEC)
+	}
 }
 
 func getAuthors() []*cli.Author {

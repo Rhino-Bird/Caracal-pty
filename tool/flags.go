@@ -31,18 +31,13 @@ func GenerateFlags(options ...interface{}) ([]cli.Flag, map[string]string) {
 
 			envName := globals.ProcessName + "_" + strings.ToUpper(strings.Join(strings.Split(flagName, "-"), "_"))
 			mappings[flagName] = fld.Name()
-
-			flagShortName := fld.Tag("flagSName")
-			if flagShortName != "" {
-				flagName += ", " + flagShortName
-			}
-
+			alsName := fld.Tag("flagSName")
 			flagDescription := fld.Tag("flagDescribe")
-
 			switch fld.Kind() {
 			case reflect.String:
 				flags = append(flags, &cli.StringFlag{
 					Name:    flagName,
+					Aliases: []string{alsName},
 					Value:   fld.Value().(string),
 					Usage:   flagDescription,
 					EnvVars: []string{envName},
@@ -50,6 +45,7 @@ func GenerateFlags(options ...interface{}) ([]cli.Flag, map[string]string) {
 			case reflect.Bool:
 				flags = append(flags, &cli.BoolFlag{
 					Name:    flagName,
+					Aliases: []string{alsName},
 					Usage:   flagDescription,
 					EnvVars: []string{envName},
 				})

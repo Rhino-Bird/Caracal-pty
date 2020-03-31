@@ -9,7 +9,7 @@ const (
 // Configure file
 var (
 	// ConfPath Configuration file path
-	ConfPath string = "./conf/conf.yaml"
+	ConfPath string = "./conf/conf.hcl"
 
 	// ConfName Configuration file name
 	ConfName string = "config"
