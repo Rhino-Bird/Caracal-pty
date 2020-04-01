@@ -12,8 +12,6 @@ import (
 	"github.com/Rhino-Bird/structs"
 	"github.com/urfave/cli/v2"
 	"github.com/yudai/hcl"
-
-	"github.com/rhino-bird/caracal-pty/globals"
 )
 
 // GenerateFlags Generate command line flags
@@ -29,7 +27,7 @@ func GenerateFlags(options ...interface{}) ([]cli.Flag, map[string]string) {
 				continue
 			}
 
-			envName := globals.ProcessName + "_" + strings.ToUpper(strings.Join(strings.Split(flagName, "-"), "_"))
+			envName := ProcessName + "_" + strings.ToUpper(strings.Join(strings.Split(flagName, "-"), "_"))
 			mappings[flagName] = fld.Name()
 			alsName := fld.Tag("flagSName")
 			flagDescription := fld.Tag("flagDescribe")
@@ -139,7 +137,7 @@ func ApplyFlags(flags []cli.Flag, fMap map[string]string, c *cli.Context, option
 
 // ApplyConfigFile apply configure flags
 func ApplyConfigFile(filePath string, options ...interface{}) error {
-	if _, err := os.Stat(globals.ConfPath); os.IsNotExist(err) {
+	if _, err := os.Stat(ConfPath); os.IsNotExist(err) {
 		return err
 	}
 

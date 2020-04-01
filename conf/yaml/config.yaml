@@ -1,0 +1,4 @@
+config:
+  caracal-pty:
+    logfile: ./logs/caracal-pty_access.log
+    time_range: 60

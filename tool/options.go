@@ -14,7 +14,3 @@ type Options struct {
 
 	TitleVariable map[string]interface{}
 }
-
-type CommandArgs struct {
-	Ops Options
-}

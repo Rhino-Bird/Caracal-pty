@@ -1,15 +1,23 @@
 package main
 
 import (
+	"fmt"
 	"os"
+
+	"github.com/rhino-bird/caracal-pty/tool"
 )
 
 func main() {
-	ch := make(chan CommandArgs)
-	args := os.Args
-	parseArgs(args, ch)
+	// Initialize the configuration file
+	tool.InitConfig()
 
+	// Parse args
+	ch := make(chan CommandArgs)
+	go func() {
+		args := os.Args
+		parseArgs(args, ch)
+	}()
 	cmd := <-ch
 
-	_ = cmd
+	fmt.Println(*cmd.Ops, *cmd.CmdOps)
 }

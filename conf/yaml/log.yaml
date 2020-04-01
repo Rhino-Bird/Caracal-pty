@@ -1,0 +1,8 @@
+log:
+  format: text
+  level: debug
+  logpath: ./logs/
+  logfile: caracal-pty.log
+  errlogfile: caracal-pty_error.log
+  loglifetime: 48 # hour
+  logrotation: 24 # day

@@ -19,11 +19,3 @@ var (
 		"Youxun-Zh": "youxun.zh@gmail.com",
 	}
 )
-
-const (
-	// AppName application name.
-	AppName = "caracal-pty"
-
-	// Usage usage infomation.
-	Usage = "Caracal pty."
-)
