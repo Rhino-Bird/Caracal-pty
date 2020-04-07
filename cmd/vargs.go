@@ -1,5 +1,9 @@
 package main
 
+import (
+	workerManager "github.com/rhino-bird/caracal-pty/utils/worker_manager"
+)
+
 var (
 	// Version build flag
 	Version string
@@ -18,4 +22,7 @@ var (
 		"xuesongbj": "davidbjhd@gmail.com",
 		"Youxun-Zh": "youxun.zh@gmail.com",
 	}
+
+	// WorkerPool for debug
+	WorkerPool = map[string][]workerManager.Worker{}
 )

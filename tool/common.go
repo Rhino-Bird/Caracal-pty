@@ -3,6 +3,7 @@ package tool
 import (
 	"fmt"
 	"os"
+	"runtime"
 )
 
 // Configure file
@@ -21,6 +22,8 @@ var (
 
 	// ConfDir configuration path
 	ConfDir string = "./conf/yaml/"
+
+	stackBuf int = 102428
 )
 
 // Exit exit process
@@ -29,4 +32,11 @@ func Exit(err error, code int) {
 		fmt.Println(err)
 	}
 	os.Exit(code)
+}
+
+// Stack pid stack buf
+func Stack() []byte {
+	buf := make([]byte, stackBuf)
+	n := runtime.Stack(buf, false)
+	return buf[:n]
 }

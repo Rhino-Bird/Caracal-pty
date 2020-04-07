@@ -4,10 +4,12 @@ import (
 	"os"
 
 	"github.com/pkg/errors"
+	"github.com/urfave/cli/v2"
+
 	"github.com/rhino-bird/caracal-pty/globals"
 	ptycommand "github.com/rhino-bird/caracal-pty/server/pty_command"
 	"github.com/rhino-bird/caracal-pty/tool"
-	"github.com/urfave/cli/v2"
+	workerManager "github.com/rhino-bird/caracal-pty/utils/worker_manager"
 )
 
 // CommandArgs command options
@@ -93,4 +95,17 @@ func getAuthors() []*cli.Author {
 	}
 
 	return auts
+}
+
+func prepareAllWorker() (*workerManager.WorkerManager, error) {
+	tool.Log.Info("init worker manager")
+	wm := workerManager.NewWorkerManager()
+
+	// HTTP server
+	// tool.Log.Info("init HTTP Server")
+	// restor := engine.NewHTTPHandler(wm)
+	// wm.AddWorker(restor)
+	// WorkerPool[engine.RestorRole] = append(WorkerPool[engine.RestorRole], restor)
+
+	return wm, nil
 }

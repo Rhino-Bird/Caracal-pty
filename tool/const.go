@@ -9,6 +9,9 @@ const (
 
 	// CannotExecCode command invoked cannot execute
 	CannotExecCode = 0x7E
+
+	// InvalidArgsCode invalid argument to exit
+	InvalidArgsCode = 0x80
 )
 
 // Process manager
@@ -18,4 +21,7 @@ const (
 
 	// Usage usage infomation.
 	Usage = "Caracal pty."
+
+	// ForceExitTime force exit time
+	ForceExitTime = 15 // second
 )
